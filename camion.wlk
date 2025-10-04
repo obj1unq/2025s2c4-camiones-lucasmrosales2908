@@ -2,6 +2,15 @@ import cosas.*
 
 object camion {
 	const property cosas = #{}
+	const tara = 1000
+	
+	method getTara(){
+		return tara
+	}
+
+    method cosas(){
+		return cosas
+	}
 
 	method cargar(unaCosa) {
 		cosas.add(unaCosa)
@@ -10,13 +19,15 @@ object camion {
 	method descargar(unaCosa){
 		cosas.remove(unaCosa)
 	}
-
+	method pesoCarga(){
+		return cosas.sum({cosa => cosa.peso()})
+	}
+	
 	method pesoTotalDelCamion(){
-		var pesoTotal =1000
-		cosas.forEach({n => pesoTotal = pesoTotal + n.peso()})
-		return pesoTotal
+		return self.getTara() + self.pesoCarga()
 
 	}
+
 
 	method pesoExedido(){
 		return self.pesoTotalDelCamion() >= 2500

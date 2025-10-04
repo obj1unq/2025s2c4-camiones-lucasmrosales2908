@@ -1,0 +1,41 @@
+import camion.*
+import cosas.*
+import extras.*
+
+
+
+describe " camiones probando todo"{
+
+    test "un camion carga al knightRider y lo descarga"{       
+        assert.equals(0, camion.cosas().size())
+        camion.cargar(knightRider)
+        assert.equals(1, camion.cosas().size())
+        camion.descargar(knightRider)
+        assert.equals(0,camion.cosas().size())
+    }
+
+
+    test "un camion no carga dos veces la misma cosa"{       
+        assert.equals(0, camion.cosas().size())
+        camion.cargar(knightRider)
+        assert.equals(1, camion.cosas().size())
+        camion.cargar(knightRider)
+        assert.equals(1,camion.cosas().size())
+    }
+
+    test "un camion no descarga una cosa que no tiene"{       
+        assert.equals(0, camion.cosas().size())
+        camion.cargar(knightRider)
+        assert.equals(1, camion.cosas().size())
+        camion.descargar(bumblebee)
+        assert.equals(1,camion.cosas().size())
+    }
+
+    test "bumblebee y su peligrosidad variante"{       
+        assert.equals(15, bumblebee.peligrosidad())
+        bumblebee.setEstado(estadoRobot)
+        assert.equals(30, bumblebee.peligrosidad())
+        bumblebee.setEstado(estadoAuto)
+        assert.equals(15, bumblebee.peligrosidad())
+    }
+}
