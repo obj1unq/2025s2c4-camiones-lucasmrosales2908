@@ -14,6 +14,21 @@ describe " camiones probando todo"{
         assert.equals(0,camion.cosas().size())
     }
 
+    test" un camion carga a bumblebee y a knigthRider y verifica que tenga 2 cosas"{       
+        assert.equals(0, camion.cosas().size())
+        camion.cargar(knightRider)
+        camion.cargar(bumblebee)
+        assert.equals(2, camion.cosas().size())
+    }
+
+    test "un camion carga a bumblebee y a knigthRider y verifica que tenga 2 cosas y luego descarga a bumblebee y verifica que tenga 1 cosa"{       
+        assert.equals(0, camion.cosas().size())
+        camion.cargar(knightRider)
+        camion.cargar(bumblebee)
+        assert.equals(2, camion.cosas().size())
+        camion.descargar(bumblebee)
+        assert.equals(1,camion.cosas().size())
+    }
 
     test "un camion no carga dos veces la misma cosa"{       
         assert.equals(0, camion.cosas().size())
@@ -31,11 +46,32 @@ describe " camiones probando todo"{
         assert.equals(1,camion.cosas().size())
     }
 
-    test "bumblebee y su peligrosidad variante"{       
-        assert.equals(15, bumblebee.peligrosidad())
-        bumblebee.setEstado(estadoRobot)
-        assert.equals(30, bumblebee.peligrosidad())
-        bumblebee.setEstado(estadoAuto)
-        assert.equals(15, bumblebee.peligrosidad())
+    test "un camion carga a bumblebee y a 50 kilos de arena a granel y verifica que el peso de toda la carga sea par"{       
+        assert.equals(0, camion.cosas().size())
+        camion.cargar(bumblebee)
+        arenaAGranel.setPeso(50)
+        camion.cargar(arenaAGranel)
+        assert.equals(2, camion.cosas().size())
+        assert.that(camion.pesoParDeTodoENLaCarga())
     }
+
+    test "un camion carga a bumblebee y a 51 kilos de arena a granel y verifica que el peso de toda la carga no sea par"{       
+        assert.equals(0, camion.cosas().size())
+        camion.cargar(bumblebee)
+        arenaAGranel.setPeso(51)
+        camion.cargar(arenaAGranel)
+        assert.equals(2, camion.cosas().size())
+        assert.notThat(camion.pesoParDeTodoENLaCarga())
+    }
+
+
+    test "bumblebee y su peligrosidad variante"{       
+        assert.equals(15, bumblebee.getPeligrosidad())
+        bumblebee.setEstado(estadoRobot)
+        assert.equals(30, bumblebee.getPeligrosidad())
+        bumblebee.setEstado(estadoAuto)
+        assert.equals(15, bumblebee.getPeligrosidad())
+    }
+
+
 }

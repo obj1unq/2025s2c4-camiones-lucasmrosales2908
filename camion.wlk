@@ -32,5 +32,9 @@ object camion {
 	method pesoExedido(){
 		return self.pesoTotalDelCamion() >= 2500
 	}
+
+	method pesoParDeTodoENLaCarga(){
+		return cosas.all({cosa => cosa.getPeso() % 2 == 0})
+	}
 	
 }
