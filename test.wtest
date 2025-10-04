@@ -64,6 +64,15 @@ describe " camiones probando todo"{
         assert.notThat(camion.pesoParDeTodoENLaCarga())
     }
 
+    test "almenos una de las cargas pesa 800 kilos"{       
+        assert.equals(0, camion.cosas().size())
+        camion.cargar(bumblebee)
+        arenaAGranel.setPeso(51)
+        camion.cargar(arenaAGranel)
+        assert.equals(2, camion.cosas().size())
+        assert.that(camion.hayAlgunoQuePesa(800))
+    }
+
 
     test "bumblebee y su peligrosidad variante"{       
         assert.equals(15, bumblebee.getPeligrosidad())
@@ -74,4 +83,32 @@ describe " camiones probando todo"{
     }
 
 
+    test "bumblebee y su peso variante"{       
+        assert.equals(800, bumblebee.getPeso())
+        bumblebee.setEstado(estadoCargadoConMisiles)
+        assert.equals(800, bumblebee.getPeso())
+        bumblebee.setEstado(estadoDescargado)
+        assert.equals(800, bumblebee.getPeso())
+    }
+    
+    test "camion tiene sobrepeso"{       
+        assert.equals(0, camion.cosas().size())
+        camion.cargar(bumblebee)
+        arenaAGranel.setPeso(1700)
+        camion.cargar(arenaAGranel)
+        assert.equals(2, camion.cosas().size())
+        assert.that(camion.pesoExedido())
+    }
+
+    test "camion tiene cosa con peligrosidad 30"{       
+        assert.equals(0, camion.cosas().size())
+        arenaAGranel.setPeso(1700)
+        camion.cargar(arenaAGranel)
+        camion.cargar(bumblebee)
+        assert.equals(2, camion.cosas().size())
+        assert.throwsException({camion.encontralCosaConPeligosidad(30)})
+        bumblebee.setEstado(estadoRobot)
+        assert.equals(bumblebee, camion.encontralCosaConPeligosidad(30))
+       
+}
 }

@@ -20,7 +20,7 @@ object camion {
 		cosas.remove(unaCosa)
 	}
 	method pesoCarga(){
-		return cosas.sum({cosa => cosa.peso()})
+		return cosas.sum({cosa => cosa.getPeso()})
 	}
 	
 	method pesoTotalDelCamion(){
@@ -37,4 +37,11 @@ object camion {
 		return cosas.all({cosa => cosa.getPeso() % 2 == 0})
 	}
 	
+	method hayAlgunoQuePesa(peso){
+		return cosas.any({cosa => cosa.getPeso() == peso})
+	}
+
+	method encontralCosaConPeligosidad(peligrosidad){
+		return cosas.find({cosa => cosa.getPeligrosidad() == peligrosidad})
+	}
 }
