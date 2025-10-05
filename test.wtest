@@ -185,7 +185,7 @@ test "el camión tiene algo que pesa entre dos valores (mínimo y máximo)"{
     assert.equals(2, camion.cosas().size())
     assert.that(camion.tieneAlgoQuePesaEntre(50,800))
 }
-test " un camión cargado con Bumblebee y un paquete de 300 ladrillos:
+test "un camión cargado con Bumblebee y un paquete de 300 ladrillos:
 - Tiene algo que pesa entre 5 y 700.
 - Tiene algo que pesa entre 5 y 1000.
 - No tiene algo que pese entre 900 y 1000."{   
@@ -225,8 +225,48 @@ un camión cargado con Bumblebee y un paquete de 300 ladrillos, los pesos son 80
     camion.cargar(paqueteDeLadrillos)
     assert.equals(2, camion.cosas().size())
     assert.equals(#{800,600},camion.pesosDeLasCosas())
-    }
 }
 
+test " el camión tiene: El contenedor portuario con Knight Rider y Bumblebee,El embalaje de seguridad envolviendo los residuos radiactivos.
+ Arena a granel,Un paquete de 50 ladrillos,La batería antiaérea descargada,Entonces la cantidad de bultos es: 9"{
+    assert.equals(0, camion.cosas().size())
+    contenedorPortuario.setContenedor(#{knightRider,bumblebee})
+    embalajeDeSeguridad.setCosaQueEnvuelve(residuosRadioactivos)
+    arenaAGranel.setPeso(100)
+    paqueteDeLadrillos.setCantidadDeLadrillos(50)
+    camion.cargar(contenedorPortuario)
+    camion.cargar(embalajeDeSeguridad)
+    camion.cargar(arenaAGranel)
+    camion.cargar(paqueteDeLadrillos)
+    camion.cargar(bateriaAntiaerea)
+    assert.equals(5, camion.cosas().size())
+    assert.equals(9,camion.totalBultos())
+}
+
+test "bulto 2"{
+    assert.equals(0, camion.cosas().size())
+    paqueteDeLadrillos.setCantidadDeLadrillos(150)
+    camion.cargar(paqueteDeLadrillos)
+    bateriaAntiaerea.setEstado(estadoCargadoConMisiles)
+    camion.cargar(bateriaAntiaerea)
+    camion.cargar(contenedorPortuario)
+    assert.equals(5, camion.totalBultos())   
+
+}
+
+test "bulto 3" {
+    assert.equals(0, camion.cosas().size())
+    paqueteDeLadrillos.setCantidadDeLadrillos(350)
+    camion.cargar(paqueteDeLadrillos)
+    arenaAGranel.setPeso(200)
+    camion.cargar(arenaAGranel)
+    assert.equals(4, camion.totalBultos())
+}
+
+
+
+
+
+}
 
 

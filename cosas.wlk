@@ -3,6 +3,11 @@ import extras.*
 object knightRider {
 	const peso = 500 
     const peligrosidad = 10
+	const bulto = 1
+
+	method getBulto(){
+		return bulto
+	}
 
 
 	method getPeso() { 
@@ -15,15 +20,24 @@ object knightRider {
 }
 
 object arenaAGranel{
+	const bulto = 1
 	var property peso = 0
 	const peligrosidad = 1
 	
+
+	method getBulto(){ 
+		return bulto 
+	}
+
+
 	method setPeso(_peso){ 
 		peso = _peso 
 	}
+	
 	method getPeso() { 
 		return peso 
 	}
+
 	method getPeligrosidad() {
 		 return peligrosidad
 	}
@@ -32,6 +46,12 @@ object arenaAGranel{
 object bumblebee{
 	const peso = 800
     var estado = estadoAuto
+	const bulto = 1
+
+	method getBulto(){ 
+		return bulto 
+	}
+
 
 	method getEstado(){ 
 		return estado 
@@ -56,6 +76,14 @@ object paqueteDeLadrillos{
 	const peligrosidad = 2
 	var cantidadDeLadrillos = 0
 	
+
+	method getBulto(){ 
+		return ((cantidadDeLadrillos -1)/100).floor().min(2)+1 
+	}
+
+
+
+
 	method setCantidadDeLadrillos(_cantidadDeLadrillos){ 
 		cantidadDeLadrillos = _cantidadDeLadrillos 
 	}
@@ -78,6 +106,11 @@ object bateriaAntiaerea{
 	
 	}
 
+	method setEstado(_estado){ 
+		estado = _estado 
+	}
+
+
 	method getPeligrosidad(){ 
 		return estado.getPeligrosidad() 
 	}
@@ -85,11 +118,20 @@ object bateriaAntiaerea{
 	method getPeso(){ 
 		return estado.getPeso()
 	}
+
+	method getBulto(){
+		return estado.getBulto()
+	}
 }
 
 object residuosRadioactivos{
 	var  property  peso = 0
 	const peligrosidad = 200
+	const bulto = 1
+
+	method getBulto(){
+		return bulto
+	}
 
 	method getPeligrosidad(){ 
 		return peligrosidad
@@ -128,10 +170,22 @@ object contenedorPortuario{
 	method getPeligrosidad(){
 		return self.peligrosidadMasAlta() 
 	}
+
+	method getBulto(){
+		return self.totalBultos()+1
+	}
+
+	method totalBultos(){
+		return contenedor.sum({cosa => cosa.getBulto()}) 
+	}
+
+
 }
 
 object embalajeDeSeguridad{
 	var cosaQueEnvuelve = null
+	
+	var bulto = 2
 
 	method setCosaQueEnvuelve(_cosaQueEnvuelve){
 		cosaQueEnvuelve = _cosaQueEnvuelve
@@ -144,5 +198,8 @@ object embalajeDeSeguridad{
 	method getPeligrosidad(){
 		return cosaQueEnvuelve.getPeligrosidad() / 2
 	}
-	
+
+	method getBulto(){
+		return bulto 
+	}
 }

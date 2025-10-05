@@ -21,19 +21,30 @@ object estadoRobot{
 object estadoCargadoConMisiles{
     const peligrosidad = 100
     const peso = 300
+    const bulto = 2
 
     method getPeligrosidad() { 
         return peligrosidad 
     }  
+
     method getPeso() { 
         return peso 
+    }
+
+   method getBulto(){
+        return bulto
     }
 }
 
 object estadoDescargado{
     const peligrosidad = 200
     var peso = 100
+    const bulto = 1
 
+     method getBulto(){
+        return bulto
+    }
+    
     method getPeligrosidad() { 
         return peligrosidad 
     }  

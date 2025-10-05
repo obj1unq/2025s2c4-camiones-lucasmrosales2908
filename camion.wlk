@@ -78,6 +78,10 @@ object camion {
 	
 	}
 
+	method totalBultos(){
+		return cosas.sum({cosa => cosa.getBulto()})
+	}
+
 }
 
 
