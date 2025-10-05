@@ -1,7 +1,7 @@
 import cosas.*
 import rutas.*
 import extras.*
-
+import almacen.*
 
 
 object camion {
@@ -85,6 +85,28 @@ object camion {
 	method meAccidente(){
 		cosas.forEach({cosa => cosa.accidente()})
 	}
+	 
+	method meDescargue(){
+		cosas.clear()
+	}
+
+	method irAlAlmacen(almacen){
+		almacen.recibirLaMercaderia(self)
+		self.meDescargue()
+	}
+
+	method validarTransporte(camino){
+		if (not camino.soportaElViaje(self)){
+			self.error("No puero Toy chiquito")
+		}
+	}
+
+	method transportar(destino,camino){
+		self.validarTransporte(camino)
+		self.irAlAlmacen(destino)
+	}
+
+	
 }
 
 

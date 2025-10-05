@@ -2,7 +2,7 @@ import camion.*
 import cosas.*
 import extras.*
 import rutas.*
-
+import almacen.*
 
 describe " camiones probando todo"{
 
@@ -302,6 +302,81 @@ test "accidente 2"{
     assert.equals(bateriaAntiaerea.getEstado(),estadoDescargado)
 }
 
+test "camion-kun se descarga en almacen-chan"{
+
+    camion.cargar(bumblebee)
+    camion.cargar(knightRider)
+    assert.equals(almacen.getContenidoDelAlmacen().size(),0)
+    almacen.recibirLaMercaderia(camion)
+    camion.meDescargue()
+    assert.equals(camion.cosas().size(),0)
+    assert.equals(almacen.getContenidoDelAlmacen(),[bumblebee,knightRider])
+}
+
+
+test "final"{
+    bumblebee.setEstado(estadoAuto)
+    camion.cargar(bumblebee)
+    arenaAGranel.setPeso(50)
+    camion.cargar(arenaAGranel)
+    residuosRadioactivos.setPeso(50)
+    almacen.setContenidoDelAlmacen([knightRider,residuosRadioactivos])
+    camion.transportar(almacen, ruta9)
+    assert.equals(almacen.getContenidoDelAlmacen().size(),4)
+    assert.that(camion.cosas().isEmpty())
+}
+
+test "final2"{
+
+    bumblebee.setEstado(estadoRobot)
+    camion.cargar(bumblebee)
+    arenaAGranel.setPeso(50)
+    camion.cargar(arenaAGranel)
+    residuosRadioactivos.setPeso(50)
+    almacen.setContenidoDelAlmacen([knightRider,residuosRadioactivos])
+    assert.throwsException({camion.transportar(almacen,ruta9)})
+    assert.equals(almacen.getContenidoDelAlmacen().size(),2)
+    assert.equals(camion.cosas().size(),2)
+}
+
+test "final3"{
+
+    bumblebee.setEstado(estadoAuto)
+    camion.cargar(bumblebee)
+    arenaAGranel.setPeso(2000)
+    camion.cargar(arenaAGranel)
+    residuosRadioactivos.setPeso(50)
+    almacen.setContenidoDelAlmacen([knightRider,residuosRadioactivos])
+    assert.throwsException({camion.transportar(almacen,ruta9)})
+    assert.equals(almacen.getContenidoDelAlmacen().size(),2)
+    assert.equals(camion.cosas().size(),2)
+}
+
+ test "caminos vecinales"{
+    caminosVecinales.setPesoPermitido(2000)
+    bumblebee.setEstado(estadoAuto)
+    camion.cargar(bumblebee)
+    arenaAGranel.setPeso(50)
+    camion.cargar(arenaAGranel)
+    residuosRadioactivos.setPeso(50)
+    almacen.setContenidoDelAlmacen([knightRider,residuosRadioactivos])
+    camion.transportar(almacen, caminosVecinales)
+    assert.equals(almacen.getContenidoDelAlmacen().size(),4)
+    assert.that(camion.cosas().isEmpty())
+    }
+
+ test "caminos vecinales2"{
+    caminosVecinales.setPesoPermitido(300)
+    bumblebee.setEstado(estadoAuto)
+    camion.cargar(bumblebee)
+    arenaAGranel.setPeso(50)
+    camion.cargar(arenaAGranel)
+    residuosRadioactivos.setPeso(50)
+    almacen.setContenidoDelAlmacen([knightRider,residuosRadioactivos])
+    assert.throwsException({camion.transportar(almacen,caminosVecinales)})
+    assert.equals(almacen.getContenidoDelAlmacen().size(),2)
+    assert.equals(camion.cosas().size(),2)
+    }
 
 }
 
