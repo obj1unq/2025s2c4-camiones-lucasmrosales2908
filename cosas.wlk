@@ -9,6 +9,7 @@ object knightRider {
 		return bulto
 	}
 
+	method accidente(){}
 
 	method getPeso() { 
 		return peso
@@ -41,6 +42,11 @@ object arenaAGranel{
 	method getPeligrosidad() {
 		 return peligrosidad
 	}
+	
+	method accidente(){
+		var pesoAccidente = (self.getPeso() + 20)
+		self.setPeso(pesoAccidente)
+	}
 }
 
 object bumblebee{
@@ -68,7 +74,12 @@ object bumblebee{
 	method getPeso(){
 		return peso
 	}
+
+	method accidente(){
+		estado.accidente()}
+			
 }
+
 
 
 object paqueteDeLadrillos{
@@ -81,7 +92,9 @@ object paqueteDeLadrillos{
 		return ((cantidadDeLadrillos -1)/100).floor().min(2)+1 
 	}
 
-
+	method getCantidadDeLadrillos(){
+		return(cantidadDeLadrillos)
+	}
 
 
 	method setCantidadDeLadrillos(_cantidadDeLadrillos){ 
@@ -95,6 +108,11 @@ object paqueteDeLadrillos{
 	method getPeligrosidad(){
 		 return peligrosidad
 	}
+
+	method accidente(){
+		cantidadDeLadrillos = (cantidadDeLadrillos - 12).max(0)
+	}
+
 }
 
 
@@ -122,6 +140,10 @@ object bateriaAntiaerea{
 	method getBulto(){
 		return estado.getBulto()
 	}
+
+	method accidente(){
+		estado.accidente()
+	}
 }
 
 object residuosRadioactivos{
@@ -133,12 +155,27 @@ object residuosRadioactivos{
 		return bulto
 	}
 
+	method setPeso(_peso){
+		peso = _peso
+	}
+
 	method getPeligrosidad(){ 
 		return peligrosidad
 	}
+
+
     method getPeso(){
 		return peso
 	}
+
+	method accidente(){
+		var pesoAccidente = peso + 15
+		self.setPeso(pesoAccidente)
+	}
+
+
+
+
 }
 
 object contenedorPortuario{
@@ -179,6 +216,9 @@ object contenedorPortuario{
 		return contenedor.sum({cosa => cosa.getBulto()}) 
 	}
 
+	method accidente(){
+		contenedor.forEach({cosa => cosa.accidente()})
+	}
 
 }
 
@@ -202,4 +242,9 @@ object embalajeDeSeguridad{
 	method getBulto(){
 		return bulto 
 	}
+
+	method accidente(){
+
+	}
+
 }

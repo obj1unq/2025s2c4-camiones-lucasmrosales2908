@@ -6,6 +6,10 @@ object estadoAuto{
 
     method getPeligrosidad() { 
         return peligrosidad 
+    }
+
+    method accidente(){
+        bumblebee.setEstado(estadoRobot)
     }  
 }
 object estadoRobot{
@@ -14,11 +18,15 @@ object estadoRobot{
     method getPeligrosidad() {
          return peligrosidad 
     }
+
+    method accidente(){
+         bumblebee.setEstado(estadoAuto)
+    }
     
 }
 
 
-object estadoCargadoConMisiles{
+object estadoCargadoConMisiles{ // gran canion?
     const peligrosidad = 100
     const peso = 300
     const bulto = 2
@@ -34,6 +42,10 @@ object estadoCargadoConMisiles{
    method getBulto(){
         return bulto
     }
+
+    method accidente(){
+        bateriaAntiaerea.setEstado(estadoDescargado)
+    }
 }
 
 object estadoDescargado{
@@ -44,7 +56,7 @@ object estadoDescargado{
      method getBulto(){
         return bulto
     }
-    
+
     method getPeligrosidad() { 
         return peligrosidad 
     }  
@@ -56,6 +68,8 @@ object estadoDescargado{
     method getPeso() { 
         return peso 
     }
+
+    method accidente(){}
 
 }
 

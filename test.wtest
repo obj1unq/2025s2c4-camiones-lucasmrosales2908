@@ -263,8 +263,44 @@ test "bulto 3" {
     assert.equals(4, camion.totalBultos())
 }
 
+test "accidente caso 1"{
 
+    bumblebee.setEstado(estadoAuto)
+    contenedorPortuario.setContenedor(#{knightRider,bumblebee})
+    residuosRadioactivos.setPeso(30)
+    embalajeDeSeguridad.setCosaQueEnvuelve(residuosRadioactivos)
+    camion.cargar(contenedorPortuario)
+    camion.cargar(embalajeDeSeguridad)
+    arenaAGranel.setPeso(50)
+    camion.cargar(arenaAGranel)
+    paqueteDeLadrillos.setCantidadDeLadrillos(100)
+    camion.cargar(paqueteDeLadrillos)
+    bateriaAntiaerea.setEstado(estadoCargadoConMisiles)
+    camion.cargar(bateriaAntiaerea)
+    camion.meAccidente()
+    assert.equals(bumblebee.getEstado(), estadoRobot)
+    assert.equals(residuosRadioactivos.getPeso(),30)
+    assert.equals(arenaAGranel.getPeso(), 70)
+    assert.equals(paqueteDeLadrillos.getCantidadDeLadrillos(), 88)
+    assert.equals(bateriaAntiaerea.getEstado(),estadoDescargado)
 
+}
+
+test "accidente 2"{
+    bumblebee.setEstado(estadoRobot)
+    camion.cargar(bumblebee)
+    residuosRadioactivos.setPeso(30)
+    camion.cargar(residuosRadioactivos)
+    paqueteDeLadrillos.setCantidadDeLadrillos(10)
+    camion.cargar(paqueteDeLadrillos)
+    bateriaAntiaerea.setEstado(estadoDescargado)
+    camion.cargar(bateriaAntiaerea)
+    camion.meAccidente()
+    assert.equals(bumblebee.getEstado(), estadoAuto)
+    assert.equals(residuosRadioactivos.getPeso(),45)
+    assert.equals(paqueteDeLadrillos.getCantidadDeLadrillos(),0)
+    assert.equals(bateriaAntiaerea.getEstado(),estadoDescargado)
+}
 
 
 }
