@@ -98,3 +98,51 @@ object residuosRadioactivos{
 		return peso
 	}
 }
+
+object contenedorPortuario{
+	var contenedor =#{}
+	const pesoBase = 100 
+	
+	method setContenedor(_contenedor){
+		contenedor = _contenedor
+	}
+
+
+	method getPeso(){
+		return pesoBase + self.pesoTotalDelContenido()
+	}
+   
+    method peligrosidadMasAlta(){
+		
+		var peligrosidadDeObjetos = contenedor.map({cosa => cosa.getPeligrosidad()})
+		
+		return peligrosidadDeObjetos.maxIfEmpty({peligrosidad => peligrosidad},{0}) 
+	}
+	
+
+	
+	method pesoTotalDelContenido(){
+		return contenedor.sum({cosa => cosa.getPeso()})
+	}
+
+	method getPeligrosidad(){
+		return self.peligrosidadMasAlta() 
+	}
+}
+
+object embalajeDeSeguridad{
+	var cosaQueEnvuelve = null
+
+	method setCosaQueEnvuelve(_cosaQueEnvuelve){
+		cosaQueEnvuelve = _cosaQueEnvuelve
+	}
+
+	method getPeso(){
+		return cosaQueEnvuelve.getPeso()
+	}
+
+	method getPeligrosidad(){
+		return cosaQueEnvuelve.getPeligrosidad() / 2
+	}
+	
+}

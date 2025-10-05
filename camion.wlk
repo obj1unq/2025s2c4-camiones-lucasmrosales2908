@@ -1,4 +1,8 @@
 import cosas.*
+import rutas.*
+import extras.*
+
+
 
 object camion {
 	const property cosas = #{}
@@ -44,4 +48,38 @@ object camion {
 	method encontralCosaConPeligosidad(peligrosidad){
 		return cosas.find({cosa => cosa.getPeligrosidad() == peligrosidad})
 	}
+
+	method cosasConPeligrosidadMayorA(peligrosidad){
+		return cosas.filter({cosa => cosa.getPeligrosidad() > peligrosidad})
+	}
+
+	method cosasConMasPeligrosasQue(cosa){
+		return self.cosasConPeligrosidadMayorA(cosa.getPeligrosidad())
+	}
+	method peligrosidadMasAlta(peligrosidad){
+		return cosas.any({cosa => cosa.getPeligrosidad() > peligrosidad}) }
+	
+
+	method aptoParaCircularEnRuta(ruta){
+
+		return not self.pesoExedido() &&  not self.peligrosidadMasAlta(ruta.getPeligrosidadAceptada())
+	}
+
+	method tieneAlgoQuePesaEntre(pesoMinimo,pesoMaximo){
+		return cosas.any({cosa => cosa.getPeso().between(pesoMinimo, pesoMaximo)})
+	}
+
+	method cosaMasPesada(){
+		return cosas.max({cosa => cosa.getPeso()})
+	}
+	
+	method pesosDeLasCosas(){
+		return cosas.map({cosa => cosa.getPeso()}).asSet()
+	
+	}
+
 }
+
+
+
+

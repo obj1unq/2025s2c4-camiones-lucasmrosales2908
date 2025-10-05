@@ -1,7 +1,7 @@
 import camion.*
 import cosas.*
 import extras.*
-
+import rutas.*
 
 
 describe " camiones probando todo"{
@@ -111,4 +111,122 @@ describe " camiones probando todo"{
         assert.equals(bumblebee, camion.encontralCosaConPeligosidad(30))
        
 }
+
+test "cosas con peligrosidad mayor a 10"{       
+        assert.equals(0, camion.cosas().size())
+        arenaAGranel.setPeso(1700)
+        camion.cargar(arenaAGranel)
+        camion.cargar(bumblebee)
+        assert.equals(2, camion.cosas().size())
+        assert.equals(1, camion.cosasConPeligrosidadMayorA(10).size())
+        camion.cargar(knightRider)
+        camion.cargar(bateriaAntiaerea)
+        assert.equals(2, camion.cosasConPeligrosidadMayorA(10).size())
 }
+test "cosas mas peligrosas que bumblebee"{       
+        assert.equals(0, camion.cosas().size())
+        arenaAGranel.setPeso(1700)
+        camion.cargar(arenaAGranel)
+        camion.cargar(bumblebee)
+        assert.equals(2, camion.cosas().size())
+        assert.equals(0, camion.cosasConMasPeligrosasQue(bumblebee).size())
+        camion.cargar(knightRider)
+        camion.cargar(bateriaAntiaerea)
+        assert.equals(1, camion.cosasConMasPeligrosasQue(bumblebee).size())
+}
+test "camion apto para ruta 9"{       
+        assert.equals(0, camion.cosas().size())
+        arenaAGranel.setPeso(100)
+        camion.cargar(arenaAGranel)
+        camion.cargar(bumblebee)
+        assert.that(camion.aptoParaCircularEnRuta(ruta9))
+}
+
+
+test "camion no apto para ruta 9"{       
+        assert.equals(0, camion.cosas().size())
+        arenaAGranel.setPeso(80000)
+        camion.cargar(arenaAGranel)
+        camion.cargar(bumblebee)
+        assert.notThat(camion.aptoParaCircularEnRuta(ruta9))
+}
+
+
+test"El contenedor portuario vacío pesa 100 y su peligrosidad es 0"{
+    assert.equals(100,contenedorPortuario.getPeso())
+    assert.equals(0,contenedorPortuario.getPeligrosidad())
+}
+test " El contenedor portuario que tiene a Knight Rider y 50 kg de arena a granel pesa 650 y su peligrosidad es 10"{
+    contenedorPortuario.setContenedor(#{knightRider,arenaAGranel})
+    arenaAGranel.setPeso(50)
+    assert.equals(650,contenedorPortuario.getPeso())
+    assert.equals(10,contenedorPortuario.getPeligrosidad())
+}
+
+test "el embalaje de seguridad envuelve a Knight Rider, su peso es 500 y su peligrosidad es 5"{
+    embalajeDeSeguridad.setCosaQueEnvuelve(knightRider)
+    assert.equals(500,embalajeDeSeguridad.getPeso())
+    assert.equals(5,embalajeDeSeguridad.getPeligrosidad())
+}
+
+test "Si el embalaje de seguridad envuelve a Bumblebee en modo auto, su peso es 800 y su peligrosidad 7,5"{
+    bumblebee.setEstado(estadoAuto)
+    embalajeDeSeguridad.setCosaQueEnvuelve(bumblebee)
+    assert.equals(800,embalajeDeSeguridad.getPeso())
+    assert.equals(7.5,embalajeDeSeguridad.getPeligrosidad())
+}
+
+
+test "el camión tiene algo que pesa entre dos valores (mínimo y máximo)"{   
+    assert.equals(0, camion.cosas().size())
+    camion.cargar(bumblebee)
+    arenaAGranel.setPeso(51)
+    camion.cargar(arenaAGranel)
+    assert.equals(2, camion.cosas().size())
+    assert.that(camion.tieneAlgoQuePesaEntre(50,800))
+}
+test " un camión cargado con Bumblebee y un paquete de 300 ladrillos:
+- Tiene algo que pesa entre 5 y 700.
+- Tiene algo que pesa entre 5 y 1000.
+- No tiene algo que pese entre 900 y 1000."{   
+    assert.equals(0, camion.cosas().size())
+    camion.cargar(bumblebee)
+    paqueteDeLadrillos.setCantidadDeLadrillos(300)
+    camion.cargar(paqueteDeLadrillos)
+    assert.equals(2, camion.cosas().size())
+    assert.that(camion.tieneAlgoQuePesaEntre(5,700))
+    assert.that(camion.tieneAlgoQuePesaEntre(5,1000))
+    assert.notThat(camion.tieneAlgoQuePesaEntre(900,1000))
+    }
+
+test "La cosa más pesada que tenga el camión"{
+    assert.equals(0, camion.cosas().size())
+    camion.cargar(bumblebee)
+    paqueteDeLadrillos.setCantidadDeLadrillos(300)
+    camion.cargar(paqueteDeLadrillos)
+    assert.equals(2, camion.cosas().size())
+    assert.equals(bumblebee,camion.cosaMasPesada())
+    arenaAGranel.setPeso(900)
+    camion.cargar(arenaAGranel)
+    assert.equals(arenaAGranel,camion.cosaMasPesada())
+    }
+test "un camión vacío, no se puede calcular la cosa más pesada."{
+    assert.equals(0, camion.cosas().size())
+    assert.throwsException({camion.cosaMasPesada()})
+
+}
+
+
+test "todos los pesos de las cosas que tiene el camión.
+un camión cargado con Bumblebee y un paquete de 300 ladrillos, los pesos son 800 y 600."    {   
+    assert.equals(0, camion.cosas().size())
+    camion.cargar(bumblebee)
+    paqueteDeLadrillos.setCantidadDeLadrillos(300)
+    camion.cargar(paqueteDeLadrillos)
+    assert.equals(2, camion.cosas().size())
+    assert.equals(#{800,600},camion.pesosDeLasCosas())
+    }
+}
+
+
+
